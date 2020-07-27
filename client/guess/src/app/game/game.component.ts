@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CategoryService } from '../service/category.service';
+
 
 @Component({
   selector: 'app-game',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameComponent implements OnInit {
 
-  constructor() { }
+  constructor(private categoryService: CategoryService) { }
 
   ngOnInit() {
+    this.categoryService.getAllCategory().subscribe(res => {
+      console.log(res);
+    });
   }
 
 }

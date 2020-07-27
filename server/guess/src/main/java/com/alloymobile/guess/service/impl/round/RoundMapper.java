@@ -20,7 +20,6 @@ public class RoundMapper extends GuessMapper<Round, RoundDTO> {
     @Override
     protected RoundDTO toDTOImpl(@NotNull Round dbo) {
         RoundDTO roundDTO = new RoundDTO();
-        roundDTO.setId(dbo.getId());
         roundDTO.setName(dbo.getName());
         return roundDTO;
     }

@@ -6,7 +6,6 @@ import com.alloymobile.guess.persistence.jpa.IGuessJpaRepository;
 import com.alloymobile.guess.service.GuessService;
 import com.alloymobile.guess.service.dto.GuessDTOPagedResources;
 import com.alloymobile.guess.service.dto.GuessDTOResource;
-import com.alloymobile.guess.service.mapper.GuessMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;

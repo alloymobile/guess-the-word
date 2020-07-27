@@ -3,6 +3,7 @@ package com.alloymobile.guess.service.impl.game;
 import com.alloymobile.guess.exception.InternalServerException;
 import com.alloymobile.guess.exception.NotFoundException;
 import com.alloymobile.guess.persistence.dbo.Game;
+import com.alloymobile.guess.service.dto.GuessDTOResource;
 import com.alloymobile.guess.service.impl.round.RoundService;
 import com.alloymobile.guess.service.impl.team.TeamService;
 import com.alloymobile.guess.service.impl.word.WordService;
@@ -42,12 +43,17 @@ public class GameMapper extends GuessMapper<Game, GameDTO> {
     @Override
     protected GameDTO toDTOImpl(@NotNull Game dbo) {
         GameDTO gameDTO = new GameDTO();
-        gameDTO.setId(dbo.getId());
         gameDTO.setScore(dbo.getScore());
-        gameDTO.setTeamId(dbo.getTeamGame().getId());
-        gameDTO.setRoundId(dbo.getRoundGame().getId());
-        gameDTO.setWordId(dbo.getWordGame().getId());
         return gameDTO;
+
+    }
+
+    @Override
+    protected void embeddedResources(Game dbo, @NotNull GuessDTOResource<GameDTO> dto) {
+        super.embeddedResources(dbo, dto);
+        dto.embedResource("team", this.teamService.getMapper().toDTO(dbo.getTeamGame()));
+        dto.embedResource("round", this.roundService.getMapper().toDTO(dbo.getRoundGame()));
+        dto.embedResource("word", this.wordService.getMapper().toDTO(dbo.getWordGame()));
     }
 
 }

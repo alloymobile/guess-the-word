@@ -20,7 +20,6 @@ public class CategoryMapper extends GuessMapper<Category,CategoryDTO> {
     @Override
     protected CategoryDTO toDTOImpl(@NotNull Category dbo) {
         CategoryDTO categoryDTO = new CategoryDTO();
-        categoryDTO.setId(dbo.getId());
         categoryDTO.setName(dbo.getName());
         return categoryDTO;
     }

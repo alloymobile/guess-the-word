@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class GameDTO implements IGuessDTO {
     private Long id;
-    private String score;
+    private Long score;
     private Long roundId;
     private Long teamId;
     private Long wordId;

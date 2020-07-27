@@ -13,7 +13,7 @@ public class Game implements IGuessDBO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String score;
+    private Long score;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinColumn(name="ROUND_ID")

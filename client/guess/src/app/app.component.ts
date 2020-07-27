@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import 'jquery';
+declare var $: any;
 
 @Component({
   selector: 'app-root',

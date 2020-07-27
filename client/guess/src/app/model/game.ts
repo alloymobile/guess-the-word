@@ -7,12 +7,12 @@ export class Game {
     word: Word;
     team: Team;
     round: Round;
-    constructor(game?: Game){
+    constructor(game?: any){
         if (game) {
             this.id = game.id;
-            this.word = new Word(game.word);
-            this.team = new Team(game.team);
-            this.round = new Round(game.round);
+            this.word = new Word(game._embedded.word);
+            this.team = new Team(game._embedded.team);
+            this.round = new Round(game._embedded.round);
         } else {
             this.id = 0;
             this.word = new Word();

@@ -3,6 +3,7 @@ package com.alloymobile.guess.service.impl.word;
 import com.alloymobile.guess.exception.InternalServerException;
 import com.alloymobile.guess.exception.NotFoundException;
 import com.alloymobile.guess.persistence.dbo.Word;
+import com.alloymobile.guess.service.dto.GuessDTOResource;
 import com.alloymobile.guess.service.impl.category.CategoryService;
 import com.alloymobile.guess.service.mapper.GuessMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,14 @@ public class WordMapper extends GuessMapper<Word, WordDTO> {
     @Override
     protected WordDTO toDTOImpl(@NotNull Word dbo) {
         WordDTO wordDTO = new WordDTO();
-        wordDTO.setId(dbo.getId());
         wordDTO.setName(dbo.getName());
-        wordDTO.setCategoryId(dbo.getCategoryWord().getId());
         return wordDTO;
+    }
+
+    @Override
+    protected void embeddedResources(Word dbo, @NotNull GuessDTOResource<WordDTO> dto) {
+        super.embeddedResources(dbo, dto);
+        dto.embedResource("category", this.categoryService.getMapper().toDTO(dbo.getCategoryWord()));
     }
 
 }

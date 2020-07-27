@@ -20,7 +20,6 @@ public class TeamMapper extends GuessMapper<Team, TeamDTO> {
     @Override
     protected TeamDTO toDTOImpl(@NotNull Team dbo) {
         TeamDTO teamDTO = new TeamDTO();
-        teamDTO.setId(dbo.getId());
         teamDTO.setName(dbo.getName());
         return teamDTO;
     }

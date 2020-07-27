@@ -6,8 +6,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GameComponent } from './game/game.component';
 import { ScoreComponent } from './score/score.component';
-import { GameService } from './game/game.service';
-import { ScoreService } from './score/score.service';
+import { GameService } from './service/game.service';
+import { CategoryService } from './service/category.service';
+import { MemeberService } from './service/memeber.service';
+import { RoundService } from './service/round.service';
+import { TeamService } from './service/team.service';
+import { WordService } from './service/word.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,11 @@ import { ScoreService } from './score/score.service';
     HttpClientModule
   ],
   providers: [GameService,
-    ScoreService
+    CategoryService,
+    MemeberService,
+    RoundService,
+    TeamService,
+    WordService
   ],
   bootstrap: [AppComponent]
 })

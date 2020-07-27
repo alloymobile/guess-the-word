@@ -4,13 +4,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class GameService {
-  apiUrl: string = 'http://localhost:8080/v1/api/game';
+export class MemeberService {
+  apiUrl:string = 'http://localhost:8080/v1/api';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient) { }
 
-  getScore(){
-    return this.http.get(`${this.apiUrl}`);
+  getAllMember(){
+    let url = this.apiUrl + '/member';
+    return this.http.get(url);
   }
 }

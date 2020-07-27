@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,7 @@ public abstract class GuessMapper<DBO_TYPE extends IGuessDBO, DTO_TYPE extends I
     @NotNull
     public GuessDTOResource<DTO_TYPE> toDTO(@NotNull DBO_TYPE dbo) {
         final GuessDTOResource<DTO_TYPE> dto = new GuessDTOResource<>(toDTOImpl(dbo));
+        this.embeddedResources(dbo, dto);
         return dto;
     }
 
@@ -75,5 +77,20 @@ public abstract class GuessMapper<DBO_TYPE extends IGuessDBO, DTO_TYPE extends I
             log.error("Unable to get DBO type from mapper", e);
             throw new InternalServerException("Unable to get DBO type from mapper");
         }
+    }
+
+    protected void embeddedResources(DBO_TYPE dbo, @NotNull GuessDTOResource<DTO_TYPE> dto) {
+        dto.embedResource("metadata", new GuessDTOResource<>(this.addEmbeddedMetadata(dbo)));
+    }
+
+    @NotNull
+    protected MetadataDTO addEmbeddedMetadata(@NotNull DBO_TYPE dbo) {
+        final MetadataDTO metadataDTO = new MetadataDTO();
+        metadataDTO.getMetadata().put("id", String.valueOf(dbo.getId()));
+        return metadataDTO;
+    }
+
+    public void extendForUpdate(@NotNull Collection<GuessMapperPair<DBO_TYPE, DTO_TYPE>> mcqMappedPairs) {
+        mcqMappedPairs.forEach(mcqMappedPair -> this.populateDBO(mcqMappedPair.dbo, mcqMappedPair.dto));
     }
 }
