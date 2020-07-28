@@ -3,7 +3,7 @@ export class Team {
     name: string;
     constructor(team?: any){
         if (team) {
-            this.id = team.id;
+            this.id = Number(team._embedded.metadata.id);
             this.name = team.name;
         } else{
             this.id = 0;

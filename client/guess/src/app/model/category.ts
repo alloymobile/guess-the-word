@@ -3,7 +3,7 @@ export class Category {
     name: string;
     constructor(category?: any) {
         if (category) {
-            this.id = category._embedded.metadata.id;
+            this.id = Number(category._embedded.metadata.id);
             this.name = category.name;
         } else{
             this.id = 0;

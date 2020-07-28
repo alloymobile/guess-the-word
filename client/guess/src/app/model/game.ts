@@ -9,7 +9,7 @@ export class Game {
     round: Round;
     constructor(game?: any){
         if (game) {
-            this.id = game.id;
+            this.id = Number(game._embedded.metadata.id);
             this.word = new Word(game._embedded.word);
             this.team = new Team(game._embedded.team);
             this.round = new Round(game._embedded.round);

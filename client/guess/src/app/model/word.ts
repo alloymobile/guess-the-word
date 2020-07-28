@@ -6,7 +6,7 @@ export class Word {
     category: Category;
     constructor(word?: any){
         if (word) {
-            this.id = word.id;
+            this.id = Number(word._embedded.metadata.id);
             this.name = word.name;
             this.category = new Category(word._embedded.category);
         } else {

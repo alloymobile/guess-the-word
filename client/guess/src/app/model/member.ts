@@ -6,7 +6,7 @@ export class Member {
     team: Team;
     constructor(member?: any){
         if (member) {
-            this.id = member.id;
+            this.id = Number(member._embedded.metadata.id);
             this.name = member.name;
             this.team = new Team(member._embedded.team);
         } else {

@@ -22,6 +22,14 @@ INSERT into Word(id,name,category_id)
   values(1,'France',1);
 INSERT into Word(id,name,category_id)
   values(2,'Cat',2);
+  INSERT into Word(id,name,category_id)
+  values(3,'Germany',1);
+INSERT into Word(id,name,category_id)
+  values(4,'Lizard',2);
+  INSERT into Word(id,name,category_id)
+  values(5,'Eritrea',1);
+INSERT into Word(id,name,category_id)
+  values(6,'Lion',2);
 
 /* Member Table */
 INSERT into Member(id,name,team_id)

@@ -3,7 +3,7 @@ export class Round {
     name: string;
     constructor(round?: any){
         if (round) {
-            this.id = round.id;
+            this.id = Number(round._embedded.metadata.id);
             this.name = round.name;
         } else {
             this.id = 0;
