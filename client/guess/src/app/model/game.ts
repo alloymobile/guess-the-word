@@ -4,17 +4,20 @@ import { Round } from './round';
 
 export class Game {
     id: number;
+    score: number;
     word: Word;
     team: Team;
     round: Round;
     constructor(game?: any){
         if (game) {
             this.id = Number(game._embedded.metadata.id);
+            this.score = game.score;
             this.word = new Word(game._embedded.word);
             this.team = new Team(game._embedded.team);
             this.round = new Round(game._embedded.round);
         } else {
             this.id = 0;
+            this.score = 0;
             this.word = new Word();
             this.team = new Team();
             this.round = new Round();

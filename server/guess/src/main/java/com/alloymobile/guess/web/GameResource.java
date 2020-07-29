@@ -1,10 +1,12 @@
 package com.alloymobile.guess.web;
 
 import com.alloymobile.guess.exception.NotFoundException;
+import com.alloymobile.guess.persistence.dbo.Game;
 import com.alloymobile.guess.service.dto.GuessDTOPagedResources;
 import com.alloymobile.guess.service.dto.GuessDTOResource;
 import com.alloymobile.guess.service.impl.game.GameDTO;
 import com.alloymobile.guess.service.impl.game.GameService;
+import com.querydsl.core.types.Predicate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -49,8 +52,8 @@ public class GameResource {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = GameDTO.class)))) })
     @GetMapping( produces = MediaTypes.HAL_JSON_VALUE)
     public @ResponseBody
-    GuessDTOPagedResources<GuessDTOResource<GameDTO>> readAllGame( @Nullable Pageable pageable ) {
-        return gameService.readAllGame(pageable).orElseThrow(NotFoundException::new);
+    GuessDTOPagedResources<GuessDTOResource<GameDTO>> readAllGame(@QuerydslPredicate(root = Game.class) Predicate predicate , @Nullable Pageable pageable ) {
+        return gameService.readAllGame(predicate,pageable).orElseThrow(NotFoundException::new);
     }
 
     //add one game

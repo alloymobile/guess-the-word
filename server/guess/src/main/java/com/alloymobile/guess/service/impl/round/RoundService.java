@@ -7,6 +7,7 @@ import com.alloymobile.guess.service.GuessService;
 import com.alloymobile.guess.service.dto.GuessDTOPagedResources;
 import com.alloymobile.guess.service.dto.GuessDTOResource;
 import com.alloymobile.guess.service.mapper.GuessMapper;
+import com.querydsl.core.types.Predicate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -29,8 +30,8 @@ public class RoundService extends GuessService<Round, RoundDTO> {
         return ((RoundRepository)this.repository).findByName(name).map(this.mapper::toDTO);
     }
 
-    public Optional<GuessDTOPagedResources<GuessDTOResource<RoundDTO>>> readAllRound(@Nullable Pageable pageable){
-        return super.readAll(pageable);
+    public Optional<GuessDTOPagedResources<GuessDTOResource<RoundDTO>>> readAllRound(@Nullable Predicate predicate, @Nullable Pageable pageable){
+        return super.readAll(predicate,pageable);
     }
     
     public Optional<GuessDTOResource<RoundDTO>> createRound(@Nullable RoundDTO newObject) {
