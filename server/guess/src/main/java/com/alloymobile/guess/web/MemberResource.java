@@ -1,12 +1,10 @@
 package com.alloymobile.guess.web;
 
 import com.alloymobile.guess.exception.NotFoundException;
-import com.alloymobile.guess.persistence.dbo.Member;
 import com.alloymobile.guess.service.dto.GuessDTOPagedResources;
 import com.alloymobile.guess.service.dto.GuessDTOResource;
 import com.alloymobile.guess.service.impl.member.MemberDTO;
 import com.alloymobile.guess.service.impl.member.MemberService;
-import com.querydsl.core.types.Predicate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -52,8 +49,8 @@ public class MemberResource {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = MemberDTO.class)))) })
     @GetMapping( produces = MediaTypes.HAL_JSON_VALUE)
     public @ResponseBody
-    GuessDTOPagedResources<GuessDTOResource<MemberDTO>> readAllMember(@QuerydslPredicate(root = Member.class) Predicate predicate , @Nullable Pageable pageable ) {
-        return memberService.readAllMember(predicate,pageable).orElseThrow(NotFoundException::new);
+    GuessDTOPagedResources<GuessDTOResource<MemberDTO>> readAllMember(@Nullable Pageable pageable ) {
+        return memberService.readAllMember(pageable).orElseThrow(NotFoundException::new);
     }
 
     //add one member

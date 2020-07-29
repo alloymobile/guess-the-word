@@ -2,12 +2,10 @@ package com.alloymobile.guess.service.impl.word;
 
 import com.alloymobile.guess.persistence.dbo.Word;
 import com.alloymobile.guess.persistence.jpa.WordRepository;
-import com.alloymobile.guess.persistence.jpa.IGuessJpaRepository;
 import com.alloymobile.guess.service.GuessService;
 import com.alloymobile.guess.service.dto.GuessDTOPagedResources;
 import com.alloymobile.guess.service.dto.GuessDTOResource;
-import com.alloymobile.guess.service.mapper.GuessMapper;
-import com.querydsl.core.types.Predicate;
+import com.alloymobile.guess.service.dto.GuessDTOResources;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -26,8 +24,8 @@ public class WordService extends GuessService<Word, WordDTO> {
         return super.readById(id);
     }
 
-    public Optional<GuessDTOPagedResources<GuessDTOResource<WordDTO>>> readAllWord(@Nullable Predicate predicate, @Nullable Pageable pageable){
-        return super.readAll(predicate,pageable);
+    public Optional<GuessDTOPagedResources<GuessDTOResource<WordDTO>>> readAllWord(@Nullable Pageable pageable){
+        return super.readAll(pageable);
     }
 
     public Optional<GuessDTOResource<WordDTO>> createWord(@Nullable WordDTO newObject) {

@@ -2,12 +2,9 @@ package com.alloymobile.guess.service.impl.game;
 
 import com.alloymobile.guess.persistence.dbo.Game;
 import com.alloymobile.guess.persistence.jpa.GameRepository;
-import com.alloymobile.guess.persistence.jpa.IGuessJpaRepository;
 import com.alloymobile.guess.service.GuessService;
 import com.alloymobile.guess.service.dto.GuessDTOPagedResources;
 import com.alloymobile.guess.service.dto.GuessDTOResource;
-import com.alloymobile.guess.service.mapper.GuessMapper;
-import com.querydsl.core.types.Predicate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -26,8 +23,8 @@ public class GameService extends GuessService<Game, GameDTO> {
         return super.readById(id);
     }
 
-    public Optional<GuessDTOPagedResources<GuessDTOResource<GameDTO>>> readAllGame(@Nullable Predicate predicate, @Nullable Pageable pageable){
-        return super.readAll(predicate,pageable);
+    public Optional<GuessDTOPagedResources<GuessDTOResource<GameDTO>>> readAllGame(@Nullable Pageable pageable){
+        return super.readAll(pageable);
     }
     
     public Optional<GuessDTOResource<GameDTO>> createGame(@Nullable GameDTO newObject) {

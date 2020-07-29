@@ -2,7 +2,6 @@ package com.alloymobile.guess.service;
 
 import com.alloymobile.guess.persistence.dbo.IGuessDBO;
 import com.alloymobile.guess.persistence.jpa.IGuessJpaRepository;
-import com.querydsl.core.types.Predicate;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +9,6 @@ import org.springframework.lang.Nullable;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 public abstract class GuessRepositoryService<DBO_TYPE extends IGuessDBO> {
 
@@ -39,11 +37,11 @@ public abstract class GuessRepositoryService<DBO_TYPE extends IGuessDBO> {
      * @param pageable the page number and size
      * @return returns the object in optional form
      */
-    public Optional<Page<DBO_TYPE>> findAll(@Nullable Predicate predicate, @Nullable Pageable pageable) {
+    public Optional<Page<DBO_TYPE>> findAll( @Nullable Pageable pageable) {
         if (null == pageable) {
             return Optional.empty();
         }
-        return this.makeOptional(this.repository.findAll(predicate,pageable));
+        return this.makeOptional(this.repository.findAll(pageable));
     }
 
     /**
