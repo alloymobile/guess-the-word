@@ -1,15 +1,14 @@
+import { DataService } from "./../service/data.service";
 import { Component, OnInit } from "@angular/core";
 import { WordService } from "../service/word.service";
 import { Word } from "../model/word";
 import { Team } from "../model/team";
-import { TeamService } from "../service/team.service";
-import { Round } from '../model/round';
-import { RoundService } from '../service/round.service';
+import { Round } from "../model/round";
 
 @Component({
   selector: "app-game",
   templateUrl: "./game.component.html",
-  styleUrls: ["./game.component.css"]
+  styleUrls: ["./game.component.css"],
 })
 export class GameComponent implements OnInit {
   wordList: Word[];
@@ -28,7 +27,7 @@ export class GameComponent implements OnInit {
   gameTurn: number;
   gamePlay: string;
   score: string[];
-  scoreHead: string[]
+  scoreHead: string[];
   scoreTotal: number[];
   scoreList: string[][];
 
@@ -36,14 +35,13 @@ export class GameComponent implements OnInit {
 
   constructor(
     private wordService: WordService,
-    private teamService: TeamService,
-    private roundService: RoundService
+    private dataService: DataService
   ) {
     this.word = new Word();
     this.round = new Round();
     this.team = new Team();
     this.wordList = [];
-    this.teamList = [];
+    this.teamList = this.dataService.teamList;
     this.roundList = [];
 
     this.answer = "";
@@ -60,7 +58,7 @@ export class GameComponent implements OnInit {
     this.scoreList = [];
 
     this.submit = false;
-    this.gamePlay = "Start"
+    this.gamePlay = "Start";
   }
 
   ngOnInit() {
@@ -68,36 +66,40 @@ export class GameComponent implements OnInit {
     this.message = "Press start to play";
     this.scoreHead.push("Round");
     this.letterList.push("*");
-    this.roundService.getAllRound().subscribe(res => {
-      this.roundList = res;
-    });
-    this.wordService.getAllWord().subscribe(res => {
+    for (let i = 0; i < this.dataService.noOfRound; i++) {
+      let round: Round = new Round();
+      round.name = String(i + 1);
+      this.roundList.push(round);
+    }
+
+    this.wordService.getAllWord().subscribe((res) => {
       this.wordList = res;
     });
-    this.teamService.getAllTeam().subscribe(res => {
-      this.teamList = res;
-      this.teamList.forEach(t => {
-        this.scoreHead.push(t.name);
-        this.scoreTotal.push(0);
-      });
+    this.teamList.forEach((t) => {
+      this.scoreHead.push(t.name);
+      this.scoreTotal.push(0);
     });
   }
 
   chooseAWord() {
     if (this.gameTurn < this.roundList.length * this.teamList.length) {
-      this.round = this.roundList[Math.floor(this.gameTurn / this.roundList.length)];
-      this.team = this.teamList[Math.floor(this.gameTurn % this.teamList.length)];
+      this.round = this.roundList[
+        Math.floor(this.gameTurn / this.teamList.length)
+      ];
+      this.team = this.teamList[
+        Math.floor(this.gameTurn % this.teamList.length)
+      ];
       this.word = new Word();
       this.gamePlay = "Start";
       this.letterLocation = [];
       this.letterList = [];
       this.turnCount = 1;
       this.scoreCount = 0;
-      this.message = this.round.name +" turn for "+this.team.name;
+      this.message = "Round " + this.round.name + " turn for " + this.team.name;
       this.answer = "";
       this.submit = true;
 
-      if(this.gameTurn % this.teamList.length === 0){
+      if (this.gameTurn % this.teamList.length === 0) {
         this.score = [];
         this.score.push(this.round.name);
         this.scoreList.push(this.score);
@@ -107,13 +109,13 @@ export class GameComponent implements OnInit {
       this.word = this.wordList[wordIndex];
       this.wordList.splice(wordIndex, 1);
       this.scoreCount = Math.pow(2, this.word.name.length);
-  
+
       this.letterSize = 100 / this.word.name.length;
       for (let i = 0; i < this.word.name.length; i++) {
         this.letterLocation.push(i);
       }
-  
-      this.letterLocation.forEach( l => {
+
+      this.letterLocation.forEach((l) => {
         this.letterList.push("*");
       });
       this.gameTurn++;
@@ -123,41 +125,45 @@ export class GameComponent implements OnInit {
   nextHint() {
     if (this.scoreCount >= 1) {
       this.turnCount += 1;
-      this.scoreCount = this.scoreCount / 2 ;
+      this.scoreCount = this.scoreCount / 2;
       const letterIndex = this.rand(this.letterLocation.length);
       const letter = this.letterLocation[letterIndex];
       this.letterList[letter] = this.word.name[letter];
       this.letterLocation.splice(letterIndex, 1);
-      let astric = this.letterList.find( l =>l === "*" );
-      if(astric === undefined){
+      let astric = this.letterList.find((l) => l === "*");
+      if (astric === undefined) {
         this.showWord();
       }
     }
   }
 
   showWord() {
-    this.letterList = this.word.name.split('');
+    this.letterList = this.word.name.split("");
     this.scoreCount = 0;
     this.answer = "";
     this.score.push(String(this.scoreCount));
     this.submit = false;
-    this.scoreTotal[(this.gameTurn - 1) % this.teamList.length] = this.scoreTotal[(this.gameTurn - 1) % this.teamList.length] + this.scoreCount;
-    this.message = " Sorry "+this.scoreCount+" Points to "+this.team.name;
+    this.scoreTotal[(this.gameTurn - 1) % this.teamList.length] =
+      this.scoreTotal[(this.gameTurn - 1) % this.teamList.length] +
+      this.scoreCount;
+    this.message = " Sorry " + this.scoreCount + " Points to " + this.team.name;
     this.reset();
   }
 
-  guessNow(){
+  guessNow() {
     if (this.answer.toLowerCase() === this.word.name.toLowerCase()) {
-      this.letterList = this.word.name.split('');
-      this.message = " Correct Answer "+this.scoreCount+" Points";
+      this.letterList = this.word.name.split("");
+      this.message = " Correct Answer " + this.scoreCount + " Points";
     } else {
       this.scoreCount = 0;
-      this.letterList = this.word.name.split('');
-      this.message = " Wrong Answer "+this.scoreCount+" Points";
+      this.letterList = this.word.name.split("");
+      this.message = " Wrong Answer " + this.scoreCount + " Points";
     }
     this.score.push(String(this.scoreCount));
     this.submit = false;
-    this.scoreTotal[(this.gameTurn - 1) % this.teamList.length] = this.scoreTotal[(this.gameTurn - 1) % this.teamList.length] + this.scoreCount;
+    this.scoreTotal[(this.gameTurn - 1) % this.teamList.length] =
+      this.scoreTotal[(this.gameTurn - 1) % this.teamList.length] +
+      this.scoreCount;
     this.reset();
   }
 
@@ -167,14 +173,18 @@ export class GameComponent implements OnInit {
     return Math.floor(rand);
   }
 
-  reset(){
-    if(this.gameTurn === this.roundList.length * this.teamList.length){
+  reset() {
+    if (this.gameTurn === this.roundList.length * this.teamList.length) {
       this.gamePlay = "Replay";
       this.gameTurn = 0;
-      this.scoreTotal.forEach(s => s = 0);
+      this.scoreTotal.forEach((s) => (s = 0));
       this.scoreList = [];
       let maxIndex = this.scoreTotal.indexOf(Math.max(...this.scoreTotal));
-      this.message = "The winner is "+this.teamList[maxIndex].name+" with a score of "+ this.scoreTotal[maxIndex];
+      this.message =
+        "The winner is " +
+        this.teamList[maxIndex].name +
+        " with a score of " +
+        this.scoreTotal[maxIndex];
     }
   }
 }

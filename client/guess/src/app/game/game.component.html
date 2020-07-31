@@ -1,40 +1,70 @@
 <h1 class="text-center">Guess The Word</h1>
-<h2 class="text-center">{{word.category.name}}</h2>
-<h3 class="text-center">{{message}}</h3>
+<h2 class="text-center">{{ word.category.name }}</h2>
+<h3 class="text-center">{{ message }}</h3>
 <div class="d-flex justify-content-around">
-        <div class="p-4 border-bottom border-primary bg-light text-uppercase h1" *ngFor="let letter of letterList">{{letter}}</div>
+  <div
+    class="p-4 border-bottom border-primary bg-light text-uppercase h1"
+    *ngFor="let letter of letterList"
+  >
+    {{ letter }}
+  </div>
 </div>
 <div class="text-center p-2 m-2">
-    <button class="btn btn-primary m-1" (click)="chooseAWord()" [disabled]="submit">{{gamePlay}}</button>
-    <button class="btn btn-primary m-1" (click)="nextHint()" [disabled]="!submit">Next</button>
-    <button class="btn btn-primary m-1" (click)="showWord()" [disabled]="!submit">Answer</button>
+  <button
+    class="btn btn-primary m-1"
+    (click)="chooseAWord()"
+    [disabled]="submit"
+  >
+    {{ gamePlay }}
+  </button>
+  <button class="btn btn-primary m-1" (click)="nextHint()" [disabled]="!submit">
+    Next
+  </button>
+  <button class="btn btn-primary m-1" (click)="showWord()" [disabled]="!submit">
+    Answer
+  </button>
+  <button class="btn btn-primary m-1" [routerLink]="''">
+    ReStart
+  </button>
 </div>
 <div class="text-center p-2 m-2">
-    <div class="form-inline d-flex justify-content-center">
-        <input type="text" class="form-control mb-2 mr-sm-2" 
-        id="guessNow" placeholder="Guess Now" [disabled]="!submit" [(ngModel)]="answer">
-        <button class="btn btn-primary mb-2" (click)="guessNow()" [disabled]="!submit">Submit</button>
-        <label class="m-2 mb-2 mr-sm-2">Score:</label>
-        <label class="m-2 mb-2 mr-sm-2">{{scoreCount}}</label>
-        <label class="m-2 mb-2 mr-sm-2">Turn:</label>
-        <label class="m-2 mb-2 mr-sm-2">{{turnCount}}</label>
-    </div>
+  <div class="form-inline d-flex justify-content-center">
+    <input
+      type="text"
+      class="form-control mb-2 mr-sm-2"
+      id="guessNow"
+      placeholder="Guess Now"
+      [disabled]="!submit"
+      [(ngModel)]="answer"
+    />
+    <button
+      class="btn btn-primary mb-2"
+      (click)="guessNow()"
+      [disabled]="!submit"
+    >
+      Submit
+    </button>
+    <label class="m-2 mb-2 mr-sm-2">Score:</label>
+    <label class="m-2 mb-2 mr-sm-2">{{ scoreCount }}</label>
+    <label class="m-2 mb-2 mr-sm-2">Turn:</label>
+    <label class="m-2 mb-2 mr-sm-2">{{ turnCount }}</label>
+  </div>
 </div>
 <div>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col" *ngFor="let scoreH of scoreHead">{{scoreH}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let score of scoreList">
-                <td *ngFor="let value of score">{{value}}</td>
-            </tr>
-            <tr>
-                <td>Total</td>
-                <td *ngFor="let total of scoreTotal">{{total}}</td>
-            </tr>
-        </tbody>
-    </table>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col" *ngFor="let scoreH of scoreHead">{{ scoreH }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let score of scoreList">
+        <td *ngFor="let value of score">{{ value }}</td>
+      </tr>
+      <tr>
+        <td>Total</td>
+        <td *ngFor="let total of scoreTotal">{{ total }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
