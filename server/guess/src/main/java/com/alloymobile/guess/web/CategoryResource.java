@@ -1,8 +1,8 @@
 package com.alloymobile.guess.web;
 
 import com.alloymobile.guess.exception.NotFoundException;
-import com.alloymobile.guess.service.dto.GuessDTOPagedResources;
 import com.alloymobile.guess.service.dto.GuessDTOResource;
+import com.alloymobile.guess.service.dto.GuessDTOResources;
 import com.alloymobile.guess.service.impl.category.CategoryDTO;
 import com.alloymobile.guess.service.impl.category.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -60,8 +59,8 @@ public class CategoryResource {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = CategoryDTO.class)))) })
     @GetMapping( produces = MediaTypes.HAL_JSON_VALUE)
     public @ResponseBody
-    GuessDTOPagedResources<GuessDTOResource<CategoryDTO>> readAllCategory(@Nullable Pageable pageable ) {
-        return categoryService.readAllCategory(pageable).orElseThrow(NotFoundException::new);
+    GuessDTOResources<GuessDTOResource<CategoryDTO>> readAllCategory() {
+        return categoryService.readAllCategory().orElseThrow(NotFoundException::new);
     }
 
     //add one category

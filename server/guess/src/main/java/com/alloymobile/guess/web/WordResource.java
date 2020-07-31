@@ -1,7 +1,7 @@
 package com.alloymobile.guess.web;
 
 import com.alloymobile.guess.exception.NotFoundException;
-import com.alloymobile.guess.service.dto.GuessDTOPagedResources;
+import com.alloymobile.guess.persistence.jpa.WordRepository;
 import com.alloymobile.guess.service.dto.GuessDTOResource;
 import com.alloymobile.guess.service.dto.GuessDTOResources;
 import com.alloymobile.guess.service.impl.word.WordDTO;
@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,10 +25,14 @@ import org.springframework.web.bind.annotation.*;
 public class WordResource {
 
     private WordService wordService;
+    private WordRepository wordRepository;
 
-    public WordResource(WordService wordService){
+    public WordResource(WordService wordService, WordRepository wordRepository){
         this.wordService = wordService;
+        this.wordRepository = wordRepository;
     }
+
+
 
     //get one word by Id
     @Operation(summary = "Find word by ID", description = "Returns a single word", tags = { "Word" })
@@ -50,8 +53,8 @@ public class WordResource {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = WordDTO.class)))) })
     @GetMapping( produces = MediaTypes.HAL_JSON_VALUE)
     public @ResponseBody
-    GuessDTOPagedResources<GuessDTOResource<WordDTO>> readAllWord( @Nullable Pageable pageable ) {
-        return wordService.readAllWord(pageable).orElseThrow(NotFoundException::new);
+    GuessDTOResources<GuessDTOResource<WordDTO>> readAllWord() {
+        return wordService.readAllWord().orElseThrow(NotFoundException::new);
     }
 
     //add one word

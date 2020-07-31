@@ -7,3 +7,4 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface IGuessJpaRepository<DBO_TYPE extends IGuessDBO> extends JpaRepository<DBO_TYPE, Long> {
 }
+
