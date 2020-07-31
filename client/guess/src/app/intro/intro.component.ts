@@ -35,8 +35,13 @@ export class IntroComponent implements OnInit {
     }
   }
   startTheGame() {
-    this.dataService.noOfRound = this.noOfRound;
-    this.dataService.teamList = this.teamList;
-    this.router.navigate(["/game"]);
+    let teamName = this.teamList.filter((t) => t.name === "");
+    if (teamName.length === 0) {
+      this.dataService.noOfRound = this.noOfRound;
+      this.dataService.teamList = this.teamList;
+      this.router.navigate(["/game"]);
+    } else {
+      alert("Please enter Team name");
+    }
   }
 }
