@@ -37,11 +37,8 @@ public abstract class GuessRepositoryService<DBO_TYPE extends IGuessDBO> {
      * @param pageable the page number and size
      * @return returns the object in optional form
      */
-    public Optional<Page<DBO_TYPE>> findAll( @Nullable Pageable pageable) {
-        if (null == pageable) {
-            return Optional.empty();
-        }
-        return this.makeOptional(this.repository.findAll(pageable));
+    public Optional<List<DBO_TYPE>> findAll() {
+        return this.makeOptional(this.repository.findAll());
     }
 
     /**

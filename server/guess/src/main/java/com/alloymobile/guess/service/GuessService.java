@@ -2,13 +2,11 @@ package com.alloymobile.guess.service;
 
 import com.alloymobile.guess.persistence.dbo.IGuessDBO;
 import com.alloymobile.guess.persistence.jpa.IGuessJpaRepository;
-import com.alloymobile.guess.service.dto.GuessDTOPagedResources;
 import com.alloymobile.guess.service.dto.GuessDTOResource;
 import com.alloymobile.guess.service.dto.GuessDTOResources;
 import com.alloymobile.guess.service.dto.IGuessDTO;
 import com.alloymobile.guess.service.mapper.GuessMapper;
 import lombok.Getter;
-import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +29,8 @@ public abstract class GuessService <DBO_TYPE extends IGuessDBO, DTO_TYPE extends
         return super.findById(id).map(this.mapper::toDTO);
     }
 
-    protected Optional<GuessDTOPagedResources<GuessDTOResource<DTO_TYPE>>> readAll(@Nullable Pageable pageable) {
-        return super.findAll(pageable).map(dbos->this.getMapper().toDTOs(dbos));
+    protected Optional<GuessDTOResources<GuessDTOResource<DTO_TYPE>>> readAll() {
+        return super.findAll().map(dbos->this.getMapper().toDTOs(dbos));
     }
 
     protected Optional<GuessDTOResource<DTO_TYPE>> createOne(@Nullable DBO_TYPE dbo_type) {

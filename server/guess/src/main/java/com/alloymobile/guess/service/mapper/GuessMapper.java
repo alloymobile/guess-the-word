@@ -50,16 +50,6 @@ public abstract class GuessMapper<DBO_TYPE extends IGuessDBO, DTO_TYPE extends I
     }
 
     @NotNull
-    @Size(min = 1)
-    public GuessDTOPagedResources<GuessDTOResource<DTO_TYPE>> toDTOs(@NotNull @Size(min = 1) Page<DBO_TYPE> dbos) {
-        final List<GuessDTOResource<DTO_TYPE>> collect = dbos.getContent().stream().map(this::toDTO).collect(Collectors.toList());
-        if (collect.isEmpty()) {
-            throw new NotFoundException();
-        }
-        return new GuessDTOPagedResources<>(collect, dbos);
-    }
-
-    @NotNull
     private DBO_TYPE getNewDBOInstance() {
         try {
             return getDBOClass().newInstance();

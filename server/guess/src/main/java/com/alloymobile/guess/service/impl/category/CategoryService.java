@@ -3,9 +3,8 @@ package com.alloymobile.guess.service.impl.category;
 import com.alloymobile.guess.persistence.dbo.Category;
 import com.alloymobile.guess.persistence.jpa.CategoryRepository;
 import com.alloymobile.guess.service.GuessService;
-import com.alloymobile.guess.service.dto.GuessDTOPagedResources;
 import com.alloymobile.guess.service.dto.GuessDTOResource;
-import org.springframework.data.domain.Pageable;
+import com.alloymobile.guess.service.dto.GuessDTOResources;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +26,8 @@ public class CategoryService extends GuessService<Category,CategoryDTO> {
         return ((CategoryRepository)this.repository).findByName(name).map(this.mapper::toDTO);
     }
 
-    public Optional<GuessDTOPagedResources<GuessDTOResource<CategoryDTO>>> readAllCategory(@Nullable Pageable pageable){
-        return super.readAll(pageable);
+    public Optional<GuessDTOResources<GuessDTOResource<CategoryDTO>>> readAllCategory(){
+        return super.readAll();
     }
     
     public Optional<GuessDTOResource<CategoryDTO>> createCategory(@Nullable CategoryDTO newObject) {
