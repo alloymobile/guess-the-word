@@ -4,6 +4,7 @@ import { WordService } from "../service/word.service";
 import { Word } from "../model/word";
 import { Team } from "../model/team";
 import { Round } from "../model/round";
+import guessdb from "../../assets/guessdb.json";
 
 @Component({
   selector: "app-game",
@@ -71,6 +72,10 @@ export class GameComponent implements OnInit {
       round.name = String(i + 1);
       this.roundList.push(round);
     }
+
+    this.wordList = jQuery.map(guessdb._embedded.wordDTOList, (w) => {
+      return new Word(w);
+    });
 
     this.wordService.getAllWord().subscribe((res) => {
       this.wordList = res;
